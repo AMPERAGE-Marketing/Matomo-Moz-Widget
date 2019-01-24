@@ -4,7 +4,7 @@ jQuery(document).ready(function($){
 		if($('.moz-info .more-info').is(':visible')){
 			mozInfoMoreShown = true;
 		}else{
-			mozInfoMoreShown = true;
+			mozInfoMoreShown = false;
 		}
 		if(mozInfoMoreShown){
 			$('#moz-info-show-more-info').text('Show More Info');
