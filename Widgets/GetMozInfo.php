@@ -149,112 +149,112 @@ class GetMozInfo extends Widget{
 
 				$output.= '<dl class="moz-info">';
 				if(isset($content['ut']) && $content['ut'] !== ''){
-					$output.= '<dt>Homepage Title</dt><dd>'.$content['ut'].'</dd>';
+					$output.= '<dt>Homepage Title</dt><dd title="The title of the page, if available">'.$content['ut'].'</dd>';
 				}
 				if(isset($content['uu'])){
-					$output.= '<div class="more-info"><dt>Canonical URL</dt><dd>'.$content['uu'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Canonical URL</dt><dd title="The canonical form of the URL">'.$content['uu'].'</dd></div>';
 				}
 				if(isset($content['ufq'])){
-					$output.= '<div class="more-info"><dt>Subdomain</dt><dd>'.$content['ufq'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Subdomain</dt><dd title="The subdomain of the URL (for example, blog.moz.com)">'.$content['ufq'].'</dd></div>';
 				}
 				if(isset($content['upl'])){
-					$output.= '<div class="more-info"><dt>Root Domain</dt><dd>'.$content['upl'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Root Domain</dt><dd title="The root domain of the URL (for example, moz.com)">'.$content['upl'].'</dd></div>';
 				}
 				if(isset($content['upa'])){
-					$output.= '<dt>Homepage Authority</dt><dd>'.$content['upa'].'</dd>';
+					$output.= '<dt>Homepage Authority</dt><dd title="A normalized 100-point score representing the likelihood of a page to rank well in search engine results">'.number_format($content['upa']).'<span> / 100</span></dd>';
 				}
 				if(isset($content['pda'])){
-					$output.= '<dt>Domain Authority</dt><dd>'.$content['pda'].'</dd>';
+					$output.= '<dt>Domain Authority</dt><dd title="A normalized 100-point score representing the likelihood of a domain to rank well in search engine results">'.number_format($content['pda']).'<span> / 100</span></dd>';
 				}
 				if(isset($content['ueid'])){
-					$output.= '<dt>Homepage External Equity Links</dt><dd>'.$content['ueid'].'</dd>';
+					$output.= '<dt>Homepage External Equity Links</dt><dd title="The number of external equity (followed) links to the URL">'.number_format($content['ueid']).'</dd>';
 				}
 				if(isset($content['feid'])){
-					$output.= '<div class="more-info"><dt>Subdomain External Links</dt><dd>'.$content['feid'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Subdomain External Links</dt><dd title="The number of external equity (followed) links to the subdomain of the URL">'.number_format($content['feid']).'</dd></div>';
 				}
 				if(isset($content['peid'])){
-					$output.= '<dt>Root Domain External Links</dt><dd>'.$content['peid'].'</dd>';
+					$output.= '<dt>Root Domain External Links</dt><dd title="The number of external equity (followed) links to the root domain of the URL">'.number_format($content['peid']).'</dd>';
 				}
 				if(isset($content['ujid'])){
-					$output.= '<div class="more-info"><dt>Equity Links</dt><dd>'.$content['ujid'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Equity Links</dt><dd title="The number of equity links (external) to the URL">'.number_format($content['ujid']).'</dd></div>';
 				}
 				if(isset($content['uifq'])){
-					$output.= '<div class="more-info"><dt>Subdomains Linking</dt><dd>'.$content['uifq'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Subdomains Linking</dt><dd title="The number of subdomains with any pages linking to the URL">'.number_format($content['uifq']).'</dd></div>';
 				}
 				if(isset($content['uipl'])){
-					$output.= '<dt>Root Domains Linking</dt><dd>'.$content['uipl'].'</dd>';
+					$output.= '<dt>Root Domains Linking</dt><dd title="The number of root domains with any pages linking to the URL">'.number_format($content['uipl']).'</dd>';
 				}
 				if(isset($content['fid'])){
-					$output.= '<div class="more-info"><dt>Subdomain, Subdomains Linking</dt><dd>'.$content['fid'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Subdomain, Subdomains Linking</dt><dd title="The number of links (external, equity or nonequity or not,) to the URL">'.number_format($content['fid']).'</dd></div>';
 				}
 				if(isset($content['pid'])){
-					$output.= '<div class="more-info"><dt>Root Domain, Root Domains Linking</dt><dd>'.$content['pid'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Root Domain, Root Domains Linking</dt><dd title="The number of root domains with any pages linking to the root domain of the URL">'.number_format($content['pid']).'</dd></div>';
 				}
 				if(isset($content['umrp'])){
-					$output.= '<dt>MozRank: Homepage</dt><dd>'.round($content['umrp'],1).'<span> / 10</span></dd>';
+					$output.= '<dt>MozRank: Homepage</dt><dd title="The MozRank of the URL, in both the normalized 10-point score">'.number_format(round($content['umrp'],1)).'<span> / 10</span></dd>';
 				}
 				if(isset($content['fmrp'])){
-					$output.= '<div class="more-info"><dt>MozRank: Subdomain</dt><dd>'.round($content['fmrp'],1).'<span> / 10</span></dd></div>';
+					$output.= '<div class="more-info"><dt>MozRank: Subdomain</dt><dd title="The MozRank of the URL\'s subdomain, in both the normalized 10-point score">'.number_format(round($content['fmrp'],1)).'<span> / 10</span></dd></div>';
 				}
 				if(isset($content['pmrp'])){
-					$output.= '<dt>MozRank: Root Domain</dt><dd>'.round($content['pmrp'],1).'<span> / 10</span></dd>';
+					$output.= '<dt>MozRank: Root Domain</dt><dd title="The MozRank of the URL\'s root domain, in both the normalized 10-point score">'.number_format(round($content['pmrp'],1)).'<span> / 10</span></dd>';
 				}
 				if(isset($content['utrp'])){
-					$output.= '<dt>MozTrust: Homepage</dt><dd>'.round($content['utrp'],1).'<span> / 10</span></dd>';
+					$output.= '<dt>MozTrust: Homepage</dt><dd title="The MozTrust of the URL, in both the normalized 10-point score">'.number_format(round($content['utrp'],1)).'<span> / 10</span></dd>';
 				}
 				if(isset($content['ftrp'])){
-					$output.= '<div class="more-info"><dt>MozTrust: Subdomain</dt><dd>'.round($content['ftrp'],1).'<span> / 10</span></dd></div>';
+					$output.= '<div class="more-info"><dt>MozTrust: Subdomain</dt><dd title="The MozTrust of the subdomain of the URL, in both the normalized 10-point score">'.number_format(round($content['ftrp'],1)).'<span> / 10</span></dd></div>';
 				}
 				if(isset($content['ptrp'])){
-					$output.= '<dt>MozTrust: Root Domain</dt><dd>'.round($content['ptrp'],1).'<span> / 10</span></dd>';
+					$output.= '<dt>MozTrust: Root Domain</dt><dd title="The MozTrust of the root domain of the URL, in both the normalized 10-point score">'.number_format(round($content['ptrp'],1)).'<span> / 10</span></dd>';
 				}
 				if(isset($content['uemrp'])){
-					$output.= '<dt>MozRank: Homepage External Equity</dt><dd>'.round($content['uemrp'],1).'<span> / 10</span></dd>';
+					$output.= '<dt>MozRank: Homepage External Equity</dt><dd title="The fraction of the URL\'s MozRank derived solely from external links, in both the normalized 10-point score">'.number_format(round($content['uemrp'],1)).'<span> / 10</span></dd>';
 				}
 				if(isset($content['fejp'])){
-					$output.= '<div class="more-info"><dt>MozRank: Subdomain, External Equity</dt><dd>'.round($content['fejp'],1).'<span> / 10</span></dd></div>';
+					$output.= '<div class="more-info"><dt>MozRank: Subdomain, External Equity</dt><dd title="The fraction, derived solely from external links, of the composite MozRank of all pages on the URL\'s subdomain, in both the normalized 10-digit score">'.number_format(round($content['fejp'],1)).'<span> / 10</span></dd></div>';
 				}
 				if(isset($content['pejp'])){
-					$output.= '<dt>MozRank: Root Domain, External Equity</dt><dd>'.round($content['pejp'],1).'<span> / 10</span></dd>';
+					$output.= '<dt>MozRank: Root Domain, External Equity</dt><dd title="The fraction, derived solely from external links, of the composite MozRank of all pages on the URL\'s root domain, in both the normalized 10-digit score">'.number_format(round($content['pejp'],1)).'<span> / 10</span></dd>';
 				}
 				if(isset($content['pjp'])){
-					$output.= '<div class="more-info"><dt>MozRank: Subdomain Combined</dt><dd>'.round($content['pjp'],1).'<span> / 10</span></dd></div>';
+					$output.= '<div class="more-info"><dt>MozRank: Subdomain Combined</dt><dd title="The combined MozRank of all pages on the root domain, in both the normalized 10-point score">'.number_format(round($content['pjp'],1)).'<span> / 10</span></dd></div>';
 				}
 				if(isset($content['fjp'])){
-					$output.= '<div class="more-info"><dt>MozRank: Root Domain Combined</dt><dd>'.round($content['fjp'],1).'<span> / 10</span></dd></div>';
+					$output.= '<div class="more-info"><dt>MozRank: Root Domain Combined</dt><dd title="The combined MozRank of all pages on the subdomain, in both the normalized 10-point score">'.number_format(round($content['fjp'],1)).'<span> / 10</span></dd></div>';
 				}
 				if(isset($content['fspsc'])){
-					$output.= '<dt>Subdomain Spam Score</dt><dd>'.$content['fspsc'].'</dd>';
+					$output.= '<dt>Subdomain Spam Score</dt><dd title="Spam score for the page\'s subdomain">'.number_format($content['fspsc']).'</dd>';
 				}
 				if(isset($content['us'])){
-					$output.= '<div class="more-info"><dt>HTTP Status Code</dt><dd>'.$content['us'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>HTTP Status Code</dt><dd title="The HTTP status code recorded by Mozscape for this URL, if available">'.$content['us'].'</dd></div>';
 				}
 				if(isset($content['uid'])){
-					$output.= '<dt>Links to Homepage</dt><dd>'.$content['uid'].'</dd>';
+					$output.= '<dt>Links to Homepage</dt><dd title="The number of links (external, equity or nonequity or not,) to the URL">'.number_format($content['uid']).'</dd>';
 				}
 				if(isset($content['fuid'])){
-					$output.= '<div class="more-info"><dt>Links to Subdomain</dt><dd>'.$content['fuid'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Links to Subdomain</dt><dd title="The total number of links (including nofollow links) to the subdomain of the URL">'.number_format($content['fuid']).'</dd></div>';
 				}
 				if(isset($content['puid'])){
-					$output.= '<dt>Links to Root Domain</dt><dd>'.$content['puid'].'</dd>';
+					$output.= '<dt>Links to Root Domain</dt><dd title="The total number of links, including nofollow links, to the root domain of the URL">'.number_format($content['puid']).'</dd>';
 				}
 				if(isset($content['fipl'])){
-					$output.= '<div class="more-info"><dt>Root Domains Linking to Subdomain</dt><dd>'.$content['fipl'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Root Domains Linking to Subdomain</dt><dd title="The number of root domains with at least one link to the subdomain of the URL">'.number_format($content['fipl']).'</dd></div>';
 				}
 				if(isset($content['ued'])){
-					$output.= '<dt>External links</dt><dd>'.$content['ued'].'</dd>';
+					$output.= '<dt>External links</dt><dd title="The number of external links to the URL, including nofollowed links">'.number_format($content['ued']).'</dd>';
 				}
 				if(isset($content['fed'])){
-					$output.= '<div class="more-info"><dt>External links to subdomain</dt><dd>'.$content['fed'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>External links to subdomain</dt><dd title="The number of external links to the subdomain, including nofollowed links">'.number_format($content['fed']).'</dd></div>';
 				}
 				if(isset($content['ped'])){
-					$output.= '<dt>External links to root domain</dt><dd>'.$content['ped'].'</dd>';
+					$output.= '<dt>External links to root domain</dt><dd title="The number of external links to the root domain, including nofollowed links">'.number_format($content['ped']).'</dd>';
 				}
 				if(isset($content['pib'])){
-					$output.= '<div class="more-info"><dt>Linking C Blocks</dt><dd>'.$content['pib'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Linking C Blocks</dt><dd title="The number of links from the same C class IP addresses">'.number_format($content['pib']).'</dd></div>';
 				}
 				if(isset($content['ulc'])){
-					$output.= '<div class="more-info"><dt>Time last crawled</dt><dd>'.$content['ulc'].'</dd></div>';
+					$output.= '<div class="more-info"><dt>Time last crawled</dt><dd title="The time and date on which Mozscape last crawled the URL, returned in Unix epoch format">'.number_format($content['ulc']).'</dd></div>';
 				}
 				$output.= '</dl>';
 				$output.= '<p><a href="#" id="moz-info-show-more-info" class="more">Show More Info</a></p>';
