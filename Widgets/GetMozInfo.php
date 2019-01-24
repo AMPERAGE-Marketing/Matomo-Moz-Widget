@@ -90,9 +90,7 @@ class GetMozInfo extends Widget{
 
 			$debug_help = false; // Toggle whether the Moz API helper text should be shown
 			$debug_siteurl = false; // Toggle the site URL being checked for at Moz
-			$debug_api = false; // Toggle whether the basic Moz API Status output should be shown
-			$debug_authentication = false; // Toggle whether the Moz API authentication testing output should be shown
-			$debug_snapshots = false; // Toggle whether the Moz API snapshots results should be shown
+			$debug_api = false; // Toggle whether the raw Moz API results should be shown
 
 			$output = '<div class="widget-body">';
 
@@ -128,46 +126,138 @@ class GetMozInfo extends Widget{
 					$output.= '<p><strong>Site URL:</strong> <code>'.$siteurl.'</code></p>';
 				}
 
+				// Set your expires times for several minutes into the future.
+				// An expires time excessively far in the future will not be honored by the Mozscape API.
+				$expires = time() + 300;
+				// Put each parameter on a new line.
+				$stringToSign = $api_key."\n".$expires;
+				// Get the "raw" or binary output of the hmac hash.
+				$binarySignature = hash_hmac('sha1', $stringToSign, $secret, true);
+				// Base64-encode it and then url-encode that.
+				$urlSafeSignature = urlencode(base64_encode($binarySignature));
+				// Add up all the bit flags you want returned.
+				// Learn more here: https://moz.com/help/guides/moz-api/mozscape/api-reference/url-metrics
+				$cols = "141421025689597";
+				// Put it all together and you get your request URL.
+				// This example uses the Mozscape URL Metrics API.
+				$requestUrl = "https://lsapi.seomoz.com/linkscape/url-metrics/".urlencode($siteurl)."?Cols=".$cols."&AccessID=".$api_key."&Expires=".$expires."&Signature=".$urlSafeSignature;
+				$content = $this->amp_get_contents($requestUrl);
+				$content = json_decode($content,true);
 				if($debug_api){
-					$api_status = $this->amp_get_contents('https://lsapi.seomoz.com/linkscape/url-metrics/'); // Get the status of the Moz API (no authentication/signing needed)
-					$output.= '<p><strong>Moz API Status:</strong> <code>'.$api_status.'</code></p>';
+					echo '<pre>';print_r($content);echo '</pre>';
 				}
 
-				if($debug_authentication){
-					$authentication_request = "test=value&api_key=".$api_key;
-					$content = str_replace('=','',$authentication_request); // Concatenate the name and value into a string (required by Moz API)
-					$content = explode('&',$content); // Make it so each request parameter is an item in the array so we can sort them alphabetically
-					sort($content); // Sort the array alphabetically (required by Moz API)
-					$content = implode('',$content); // Turn array into string
-					$authentication_request_signed = hash_hmac("sha256", $content, $secret); // The result for the required Request Signing
-					$authentication = $this->amp_get_contents('https://app.crazyegg.com/api/v2/authenticate.json?'.$authentication_request.'&signed='.$authentication_request_signed); // Test authentication with keys & singing
-					$output.= '<p><strong>Moz API Authentication:</strong> <code>'.$authentication.'</code></p>';
+				$output.= '<dl class="moz-info">';
+				if(isset($content['ut']) && $content['ut'] !== ''){
+					$output.= '<dt>Homepage Title</dt><dd>'.$content['ut'].'</dd>';
 				}
-
-				$snapshots_request = "api_key=".$api_key;
-				$content = str_replace('=','',$snapshots_request); // Concatenate the name and value into a string (required by Moz API)
-				$content = explode('&',$content); // Make it so each request parameter is an item in the array so we can sort them alphabetically
-				sort($content); // Sort the array alphabetically (required by Moz API)
-				$content = implode('',$content); // Turn array into string
-				$snapshots_request_signed = hash_hmac("sha256", $content, $secret); // The result for the required Request Signing
-				$snapshots = $this->amp_get_contents('https://app.crazyegg.com/api/v2/snapshots.json?'.$snapshots_request.'&signed='.$snapshots_request_signed); // Get the list of snapshots in this account
-
-				if($debug_snapshots){
-					$output.= '<p><strong>Moz Snapshots:</strong> <code>'.$snapshots.'</code></p>';
+				if(isset($content['uu'])){
+					$output.= '<div class="more-info"><dt>Canonical URL</dt><dd>'.$content['uu'].'</dd></div>';
 				}
-
-				$snapshots = json_decode($snapshots);
-				$snapshotCount = 0;
-				foreach($snapshots as $snapshot){
-					if (strpos($snapshot->source_url, $siteurl) !== false) { // Only snapshot info if it's for the current site's URL
-						$output.= '<a href="https://app.crazyegg.com/v2/snapshots/'.$snapshot->id.'" target="_blank" class="crazyegg-snapshot"><h4 class="name">'.$snapshot->name.'</h4><img src="'.$snapshot->thumbnail_url.'" class="thumbnail" alt="Thumbnail" width="154" height="102" /><span class="total_visits">'.number_format($snapshot->total_visits).'</span><span class="total_clicks">'.number_format($snapshot->total_clicks).'</span><span class="status">'.ucfirst($snapshot->status).'</span><span class="heatmap-preview"><img src="'.$snapshot->heatmap_url.'" class="heatmap" alt="Heatmap" width="100%" /><img src="'.$snapshot->screenshot_url.'" class="screenshot" alt="Screenshot" width="100%" /></span></a><!-- .crazyegg-snapshot -->';
-						$snapshotCount++;
-					}
+				if(isset($content['ufq'])){
+					$output.= '<div class="more-info"><dt>Subdomain</dt><dd>'.$content['ufq'].'</dd></div>';
 				}
-
-				if($snapshotCount<1){
-					$output.= '<p>No <a href="https://www.moz.com" target="_blank">Moz.com</a> info is available for this website\'s URL ('.$siteurl.') under the account the Moz API keys are for, currently.</p>';
+				if(isset($content['upl'])){
+					$output.= '<div class="more-info"><dt>Root Domain</dt><dd>'.$content['upl'].'</dd></div>';
 				}
+				if(isset($content['upa'])){
+					$output.= '<dt>Homepage Authority</dt><dd>'.$content['upa'].'</dd>';
+				}
+				if(isset($content['pda'])){
+					$output.= '<dt>Domain Authority</dt><dd>'.$content['pda'].'</dd>';
+				}
+				if(isset($content['ueid'])){
+					$output.= '<dt>Homepage External Equity Links</dt><dd>'.$content['ueid'].'</dd>';
+				}
+				if(isset($content['feid'])){
+					$output.= '<div class="more-info"><dt>Subdomain External Links</dt><dd>'.$content['feid'].'</dd></div>';
+				}
+				if(isset($content['peid'])){
+					$output.= '<dt>Root Domain External Links</dt><dd>'.$content['peid'].'</dd>';
+				}
+				if(isset($content['ujid'])){
+					$output.= '<div class="more-info"><dt>Equity Links</dt><dd>'.$content['ujid'].'</dd></div>';
+				}
+				if(isset($content['uifq'])){
+					$output.= '<div class="more-info"><dt>Subdomains Linking</dt><dd>'.$content['uifq'].'</dd></div>';
+				}
+				if(isset($content['uipl'])){
+					$output.= '<dt>Root Domains Linking</dt><dd>'.$content['uipl'].'</dd>';
+				}
+				if(isset($content['fid'])){
+					$output.= '<div class="more-info"><dt>Subdomain, Subdomains Linking</dt><dd>'.$content['fid'].'</dd></div>';
+				}
+				if(isset($content['pid'])){
+					$output.= '<div class="more-info"><dt>Root Domain, Root Domains Linking</dt><dd>'.$content['pid'].'</dd></div>';
+				}
+				if(isset($content['umrp'])){
+					$output.= '<dt>MozRank: Homepage</dt><dd>'.round($content['umrp'],1).'<span> / 10</span></dd>';
+				}
+				if(isset($content['fmrp'])){
+					$output.= '<div class="more-info"><dt>MozRank: Subdomain</dt><dd>'.round($content['fmrp'],1).'<span> / 10</span></dd></div>';
+				}
+				if(isset($content['pmrp'])){
+					$output.= '<dt>MozRank: Root Domain</dt><dd>'.round($content['pmrp'],1).'<span> / 10</span></dd>';
+				}
+				if(isset($content['utrp'])){
+					$output.= '<dt>MozTrust: Homepage</dt><dd>'.round($content['utrp'],1).'<span> / 10</span></dd>';
+				}
+				if(isset($content['ftrp'])){
+					$output.= '<div class="more-info"><dt>MozTrust: Subdomain</dt><dd>'.round($content['ftrp'],1).'<span> / 10</span></dd></div>';
+				}
+				if(isset($content['ptrp'])){
+					$output.= '<dt>MozTrust: Root Domain</dt><dd>'.round($content['ptrp'],1).'<span> / 10</span></dd>';
+				}
+				if(isset($content['uemrp'])){
+					$output.= '<dt>MozRank: Homepage External Equity</dt><dd>'.round($content['uemrp'],1).'<span> / 10</span></dd>';
+				}
+				if(isset($content['fejp'])){
+					$output.= '<div class="more-info"><dt>MozRank: Subdomain, External Equity</dt><dd>'.round($content['fejp'],1).'<span> / 10</span></dd></div>';
+				}
+				if(isset($content['pejp'])){
+					$output.= '<dt>MozRank: Root Domain, External Equity</dt><dd>'.round($content['pejp'],1).'<span> / 10</span></dd>';
+				}
+				if(isset($content['pjp'])){
+					$output.= '<div class="more-info"><dt>MozRank: Subdomain Combined</dt><dd>'.round($content['pjp'],1).'<span> / 10</span></dd></div>';
+				}
+				if(isset($content['fjp'])){
+					$output.= '<div class="more-info"><dt>MozRank: Root Domain Combined</dt><dd>'.round($content['fjp'],1).'<span> / 10</span></dd></div>';
+				}
+				if(isset($content['fspsc'])){
+					$output.= '<dt>Subdomain Spam Score</dt><dd>'.$content['fspsc'].'</dd>';
+				}
+				if(isset($content['us'])){
+					$output.= '<div class="more-info"><dt>HTTP Status Code</dt><dd>'.$content['us'].'</dd></div>';
+				}
+				if(isset($content['uid'])){
+					$output.= '<dt>Links to Homepage</dt><dd>'.$content['uid'].'</dd>';
+				}
+				if(isset($content['fuid'])){
+					$output.= '<div class="more-info"><dt>Links to Subdomain</dt><dd>'.$content['fuid'].'</dd></div>';
+				}
+				if(isset($content['puid'])){
+					$output.= '<dt>Links to Root Domain</dt><dd>'.$content['puid'].'</dd>';
+				}
+				if(isset($content['fipl'])){
+					$output.= '<div class="more-info"><dt>Root Domains Linking to Subdomain</dt><dd>'.$content['fipl'].'</dd></div>';
+				}
+				if(isset($content['ued'])){
+					$output.= '<dt>External links</dt><dd>'.$content['ued'].'</dd>';
+				}
+				if(isset($content['fed'])){
+					$output.= '<div class="more-info"><dt>External links to subdomain</dt><dd>'.$content['fed'].'</dd></div>';
+				}
+				if(isset($content['ped'])){
+					$output.= '<dt>External links to root domain</dt><dd>'.$content['ped'].'</dd>';
+				}
+				if(isset($content['pib'])){
+					$output.= '<div class="more-info"><dt>Linking C Blocks</dt><dd>'.$content['pib'].'</dd></div>';
+				}
+				if(isset($content['ulc'])){
+					$output.= '<div class="more-info"><dt>Time last crawled</dt><dd>'.$content['ulc'].'</dd></div>';
+				}
+				$output.= '</dl>';
+				$output.= '<p><a href="#" id="moz-info-show-more-info" class="more">Show More Info</a></p>';
 
 			}
 

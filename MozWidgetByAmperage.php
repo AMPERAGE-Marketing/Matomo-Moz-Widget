@@ -19,6 +19,7 @@ class MozWidgetByAmperage extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
         );
     }
@@ -26,5 +27,10 @@ class MozWidgetByAmperage extends \Piwik\Plugin
     public function getStylesheetFiles(&$files)
     {
         $files[] = "plugins/MozWidgetByAmperage/stylesheets/moz.less";
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/MozWidgetByAmperage/javascripts/moz.js";
     }
 }
