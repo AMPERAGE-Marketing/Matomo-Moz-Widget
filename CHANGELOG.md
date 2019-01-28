@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Improved the output of the custom report link in the widget.
+
 ## 1.1.0
 
 - Added the ability to specify a Moz Pro Custom Report for quickly opening/viewing from the Dashboard widget (a measurable [website/app] specific setting.)

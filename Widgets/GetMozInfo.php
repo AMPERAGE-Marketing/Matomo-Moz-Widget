@@ -117,6 +117,15 @@ class GetMozInfo extends Widget{
 			$api_key = $settings->mozAPIKey->getValue();
 			$secret = $settings->mozSecretKey->getValue();
 
+			// Get the Moz.com Custom Report Preview URL setting from Matomo based on the Measurable (Site/App) (allowing different sites/apps to have different Report URLs)
+			$report_url = '';
+			$idSite = Common::getRequestVar('idSite');
+			$measurableSettings = $this->settingsProvider->getMeasurableSettings('MozWidgetByAmperage', $idSite);
+			$report_url = $measurableSettings->mozCustomReportURLSetting->getValue();
+			if(isset($report_url) && $report_url !== ''){
+				$output.= '<p><a href="'.$report_url.'" target="_blank" class="more btn">View Latest Custom Report</a></p>';
+			}
+
 			if($api_key == '' || $secret == ''){
 				$output.= '<p>You first need to configure the Moz.com API Keys in your <a href="index.php?module=UsersManager&action=userSettings#MozWidgetByAmperage">user settings</a>.</p>';
 			}else{ // API Keys have been provided
@@ -274,15 +283,6 @@ class GetMozInfo extends Widget{
 				$output.= '</dl>';
 				$output.= '<p><a href="#" id="moz-info-show-more-info" class="more">Show More Info</a></p>';
 
-			}
-
-			// Get the Moz.com Custom Report Preview URL setting from Matomo based on the Measurable (Site/App) (allowing different sites/apps to have different Report URLs)
-			$report_url = '';
-			$idSite = Common::getRequestVar('idSite');
-			$measurableSettings = $this->settingsProvider->getMeasurableSettings('MozWidgetByAmperage', $idSite);
-			$report_url = $measurableSettings->mozCustomReportURLSetting->getValue();
-			if(isset($report_url) && $report_url !== ''){
-				$output.= '<p><a href="'.$report_url.'" target="_blank" class="more">View Latest Custom Report</a></p>';
 			}
 
 			$output.= '</div>';
