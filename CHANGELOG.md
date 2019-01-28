@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2
+
+- Minor adjustment to plugin metadata.
+
 ## 1.1.1
 
 - Improved the output of the custom report link in the widget.
