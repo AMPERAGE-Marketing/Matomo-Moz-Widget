@@ -1,6 +1,6 @@
 {
     "name": "MozWidgetByAmperage",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Show Moz.com info for the current site as a dashboard widget.",
     "theme": false,
     "keywords": [

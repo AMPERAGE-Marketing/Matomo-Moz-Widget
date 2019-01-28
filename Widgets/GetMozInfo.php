@@ -15,6 +15,10 @@ use Piwik\Common;
 use Piwik\Site;
 use Piwik\Url;
 use Piwik\UrlHelper;
+use Piwik\Plugin\SettingsProvider;
+use Piwik\Settings\Measurable;
+use Piwik\Settings\Measurable\MeasurableSettings;
+use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 
 /**
  * This class allows you to add your own widget to the Piwik platform. In case you want to remove widgets from another
@@ -23,6 +27,17 @@ use Piwik\UrlHelper;
  * http://developer.piwik.org/api-reference/Piwik/Plugin\Widget
  */
 class GetMozInfo extends Widget{
+
+    /**
+     * @var SettingsProvider
+     */
+	private $settingsProvider;
+
+    public function __construct(SettingsProvider $settingsProvider)
+    {
+        $this->settingsProvider = $settingsProvider;
+    }
+
     public static function configure(WidgetConfig $config){
         /**
          * Set the category the widget belongs to. You can reuse any existing widget category or define
@@ -259,6 +274,15 @@ class GetMozInfo extends Widget{
 				$output.= '</dl>';
 				$output.= '<p><a href="#" id="moz-info-show-more-info" class="more">Show More Info</a></p>';
 
+			}
+
+			// Get the Moz.com Custom Report Preview URL setting from Matomo based on the Measurable (Site/App) (allowing different sites/apps to have different Report URLs)
+			$report_url = '';
+			$idSite = Common::getRequestVar('idSite');
+			$measurableSettings = $this->settingsProvider->getMeasurableSettings('MozWidgetByAmperage', $idSite);
+			$report_url = $measurableSettings->mozCustomReportURLSetting->getValue();
+			if(isset($report_url) && $report_url !== ''){
+				$output.= '<p><a href="'.$report_url.'" target="_blank" class="more">View Latest Custom Report</a></p>';
 			}
 
 			$output.= '</div>';
