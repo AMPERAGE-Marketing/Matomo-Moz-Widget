@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.3
+
+- Better scoped the widget styles.
+- Made more use of existing CSS within Matomo instead of using custom styles.
+
 ## 1.1.2
 
 - Minor adjustment to plugin metadata.
