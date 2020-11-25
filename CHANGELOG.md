@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.4
+
+- Confirmed Matomo 4 compliance.
+
 ## 1.1.3
 
 - Better scoped the widget styles.

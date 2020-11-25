@@ -1,38 +1,30 @@
 {
-    "name": "MozWidgetByAmperage",
-    "version": "1.1.3",
-    "description": "Show Moz.com info for the current site as a dashboard widget. Also links to the latest Moz Pro Campaign Custom Report, if available.",
-    "theme": false,
-    "keywords": [
-        "amperage",
-        "moz",
-        "seomoz",
-        "widget",
-        "seo",
-        "search",
-        "dashboard"
-    ],
-    "license": "GPL v3+",
-    "homepage": "https://www.amperagemarketing.com",
-    "require": {
-        "piwik": ">=3.2.1-stable,<4.0.0-b1"
-    },
-    "support": {
-        "email": "kzeni1@gmail.com",
-        "issues": "https://github.com/AMPERAGE-Marketing/Matomo-Moz-Widget/issues",
-        "wiki": "https://github.com/AMPERAGE-Marketing/Matomo-Moz-Widget/wiki",
-        "source": "https://github.com/AMPERAGE-Marketing/Matomo-Moz-Widget"
-    },
-    "authors": [
-        {
-            "name": "Amperage Marketing & Fundraising",
-            "email": "digital@amperagemarketing.com",
-            "homepage": "http://www.amperagemarketing.com"
-        },
-        {
-            "name": "Kurt Zenisek",
-            "email": "kzeni1@gmail.com",
-            "homepage": "http://kzeni.com"
-        }
-    ]
+	"name": "MozWidgetByAmperage",
+	"version": "1.1.4",
+	"description": "Show Moz.com info for the current site as a dashboard widget. Also links to the latest Moz Pro Campaign Custom Report, if available.",
+	"theme": false,
+	"keywords": ["amperage", "moz", "seomoz", "widget", "seo", "search", "dashboard"],
+	"license": "GPL v3+",
+	"homepage": "https://www.amperagemarketing.com",
+	"require": {
+		"piwik": ">=3.2.1-stable,<5.0.0-b1"
+	},
+	"support": {
+		"email": "kzeni1@gmail.com",
+		"issues": "https://github.com/AMPERAGE-Marketing/Matomo-Moz-Widget/issues",
+		"wiki": "https://github.com/AMPERAGE-Marketing/Matomo-Moz-Widget/wiki",
+		"source": "https://github.com/AMPERAGE-Marketing/Matomo-Moz-Widget"
+	},
+	"authors": [
+		{
+			"name": "Amperage Marketing & Fundraising",
+			"email": "digital@amperagemarketing.com",
+			"homepage": "http://www.amperagemarketing.com"
+		},
+		{
+			"name": "Kurt Zenisek",
+			"email": "kzeni1@gmail.com",
+			"homepage": "http://kzeni.com"
+		}
+	]
 }
