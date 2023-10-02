@@ -1,13 +1,13 @@
 {
 	"name": "MozWidgetByAmperage",
-	"version": "1.1.6",
+	"version": "5.0.0",
 	"description": "Show Moz.com info for the current site as a dashboard widget. Also links to the latest Moz Pro Campaign Custom Report, if available.",
 	"theme": false,
 	"keywords": ["amperage", "moz", "seomoz", "widget", "seo", "search", "dashboard"],
 	"license": "GPL v3+",
 	"homepage": "https://www.amperagemarketing.com",
 	"require": {
-		"matomo": ">=4.0.0-b1,<5.0.0-b1"
+		"matomo": ">=5.0.0-b1,<6.0.0-b1"
 	},
 	"support": {
 		"email": "kzeni1@gmail.com",
